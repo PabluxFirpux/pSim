@@ -5,13 +5,18 @@
 #include <cstdlib>
 #include "Particle.h"
 
-Particle::Particle(int maxX, int maxY) {
+Particle::Particle(int maxX, int maxY, Color color) {
     this->x = float_rand(0, maxX);
     this->y = float_rand(0, maxY);
     this->speedX = float_rand(0.3, 2);
     this->speedY = float_rand(0.3, 2);
     this->maxX = maxX;
     this->maxY = maxY;
+    this->color = color;
+}
+
+Color Particle::getColor() {
+    return this->color;
 }
 
 float Particle::float_rand( float min, float max )

@@ -5,13 +5,20 @@
 #ifndef PSIM_PARTICLE_H
 #define PSIM_PARTICLE_H
 
+enum Color {
+    RED,
+    GREEN,
+    BLUE,
+    YELLOW
+};
 
 class Particle {
 public:
-    Particle(int maxX, int maxY);
+    Particle(int maxX, int maxY, Color color);
     float getX();
     float getY();
     void calcNextPosition();
+    Color getColor();
     void bounce();
     void setMaxX(int maxX);
     void setMaxY(int maxY);
@@ -23,6 +30,7 @@ private:
     float speedY;
     int maxX;
     int maxY;
+    Color color;
 };
 
 
