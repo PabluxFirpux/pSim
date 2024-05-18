@@ -83,7 +83,7 @@ float PhysicsEngine::getRelation(Particle* p1, Particle* p2) {
 }
 
 Force PhysicsEngine::getForce(Particle* target, Particle* reference) {
-    float DETERRENT = 0.01;
+    float DETERRENT = 0.1;
     float relation = getRelation(target, reference);
     float x = reference->getX()-target->getX();
     float y = reference->getY()-target->getY();
