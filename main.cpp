@@ -78,8 +78,21 @@ void display() {
     glFlush();
 
 }
-void drawParticle(float x, float y) {
-    glColor3f(1, 1, 1);
+void drawParticle(float x, float y, Color color) {
+    switch (color) {
+        case Color::RED:
+            glColor3f(1, 0, 0);
+            break;
+            case Color::BLUE:
+            glColor3f(0, 0, 1);
+            break;
+        case Color::GREEN:
+            glColor3f(0, 1, 0);
+            break;
+        case Color::YELLOW:
+            glColor3f(1,1,0);
+            break;
+    }
     glVertex2f(x, y);
     glVertex2f(x + CELLSIZE, y);
     glVertex2f(x + CELLSIZE, y + CELLSIZE);
@@ -88,7 +101,7 @@ void drawParticle(float x, float y) {
 
 void drawParticles() {
     for(Particle* part: particles) {
-        drawParticle(part->getX(), part->getY());
+        drawParticle(part->getX(), part->getY(), part->getColor());
     }
 }
 
@@ -99,8 +112,21 @@ void calcPositions() {
 }
 
 void populate() {
-    for (int i = 0; i<3; i++) {
-        Particle *perttt = new Particle(WIDTH, HEIGHT);
+    const int PARTICLE_AMOUNT = 10;
+    for (int i = 0; i<PARTICLE_AMOUNT; i++) {
+        Particle *perttt = new Particle(WIDTH, HEIGHT, Color::BLUE);
+        particles.push_back(perttt);
+    }
+    for (int i = 0; i<PARTICLE_AMOUNT; i++) {
+        Particle *perttt = new Particle(WIDTH, HEIGHT, Color::RED);
+        particles.push_back(perttt);
+    }
+    for (int i = 0; i<PARTICLE_AMOUNT; i++) {
+        Particle *perttt = new Particle(WIDTH, HEIGHT, Color::GREEN);
+        particles.push_back(perttt);
+    }
+    for (int i = 0; i<PARTICLE_AMOUNT; i++) {
+        Particle *perttt = new Particle(WIDTH, HEIGHT, Color::YELLOW);
         particles.push_back(perttt);
     }
 }
