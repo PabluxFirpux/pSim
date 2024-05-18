@@ -11,7 +11,9 @@ find_package(GLUT REQUIRED)
 add_executable(pSim
         main.cpp
         src/Particle.cpp
-        src/Particle.h)
+        src/Particle.h
+        src/PhysicsEngine.cpp
+        src/PhysicsEngine.h)
 
 install(TARGETS pSim DESTINATION bin)
 

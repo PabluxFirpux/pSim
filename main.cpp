@@ -3,14 +3,18 @@
 #include <GL/glut.h>
 #include "src/Particle.h"
 #include <vector>
+#include "src/PhysicsEngine.h"
 
 int WIDTH = 1800;
 int HEIGHT = 900;
 float CELLSIZE = 5;
 std::vector<Particle*> particles = std::vector<Particle*>();
+PhysicsEngine pengine = PhysicsEngine(-2,3,-5,1,-1.2,1.5,-1.3,1.7,-2.4,3.4);
 void display();
 
 void reshape(int w, int h);
+
+void applyForces();
 
 void drawParticle(float x, float y);
 
@@ -68,6 +72,7 @@ void reMarginParticles(int maxX, int maxY) {
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
+    applyForces();
     calcPositions();
     glBegin(GL_QUADS);
 
@@ -78,6 +83,19 @@ void display() {
     glFlush();
 
 }
+
+void applyForces() {
+    for (Particle* p1: particles) {
+        for (Particle* p2: particles) {
+            if (p1 == p2) {continue;}
+
+            Force f = pengine.getForce(p1, p2);
+            p1->addToSpeedX(f.x);
+            p1->addToSpeedY(f.y);
+        }
+    }
+}
+
 void drawParticle(float x, float y, Color color) {
     switch (color) {
         case Color::RED:
@@ -112,7 +130,7 @@ void calcPositions() {
 }
 
 void populate() {
-    const int PARTICLE_AMOUNT = 10;
+    const int PARTICLE_AMOUNT = 1;
     for (int i = 0; i<PARTICLE_AMOUNT; i++) {
         Particle *perttt = new Particle(WIDTH, HEIGHT, Color::BLUE);
         particles.push_back(perttt);

@@ -4,12 +4,12 @@
 
 #include <cstdlib>
 #include "Particle.h"
-
+int MAX_SPEED = 3;
 Particle::Particle(int maxX, int maxY, Color color) {
     this->x = float_rand(0, maxX);
     this->y = float_rand(0, maxY);
-    this->speedX = float_rand(0.3, 2);
-    this->speedY = float_rand(0.3, 2);
+    this->speedX = 0;
+    this->speedY = 0;
     this->maxX = maxX;
     this->maxY = maxY;
     this->color = color;
@@ -67,5 +67,15 @@ void Particle::setMaxX(int maxX) {
 
 void Particle::setMaxY(int maxY) {
     this->maxY = maxY;
+}
+
+void Particle::addToSpeedX(float x) {
+    if (this->speedX > MAX_SPEED) {return;}
+    this->speedX += x;
+}
+
+void Particle::addToSpeedY(float y) {
+    if (this->speedY > MAX_SPEED) {return;}
+    this->speedY += y;
 }
 
