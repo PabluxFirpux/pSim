@@ -9,14 +9,14 @@ int WIDTH = 1800;
 int HEIGHT = 900;
 float CELLSIZE = 5;
 std::vector<Particle*> particles = std::vector<Particle*>();
-PhysicsEngine pengine = PhysicsEngine(-2,3,-5,1,-1.2,1.5,-1.3,1.7,-2.4,3.4);
+PhysicsEngine pengine = PhysicsEngine(0,4,4,0,1,1,0,4,0,1);
 void display();
 
 void reshape(int w, int h);
 
 void applyForces();
 
-void drawParticle(float x, float y);
+void drawParticle(float x, float y, Color color);
 
 void calcPositions();
 
@@ -130,7 +130,7 @@ void calcPositions() {
 }
 
 void populate() {
-    const int PARTICLE_AMOUNT = 1;
+    const int PARTICLE_AMOUNT = 10;
     for (int i = 0; i<PARTICLE_AMOUNT; i++) {
         Particle *perttt = new Particle(WIDTH, HEIGHT, Color::BLUE);
         particles.push_back(perttt);

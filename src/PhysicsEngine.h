@@ -27,6 +27,7 @@ private:
     float ry;
     float yy;
     float getRelation(Particle* p1, Particle* p2);
+    float getSquare(float x);
 };
 
 

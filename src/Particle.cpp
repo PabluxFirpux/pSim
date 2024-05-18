@@ -4,7 +4,7 @@
 
 #include <cstdlib>
 #include "Particle.h"
-int MAX_SPEED = 3;
+int MAX_SPEED = 10;
 Particle::Particle(int maxX, int maxY, Color color) {
     this->x = float_rand(0, maxX);
     this->y = float_rand(0, maxY);
@@ -35,8 +35,24 @@ float Particle::getY() {
 
 void Particle::calcNextPosition() {
     this->bounce();
+    if (this->x < 0) {
+        this->x *= -1;
+        return;
+    }
+    if (this->x > this->maxX) {
+        this->x -= 50;
+    }
+    if (this->y< 0) {
+        this->y *= -1;
+        return;
+    }
+    if (this->y > this->maxX) {
+        this->y -= 50;
+    }
     this->x += this->speedX;
     this->y += this->speedY;
+   // this->speedX = 0;
+   // this->speedY = 0;
 }
 
 void Particle::bounce() {
@@ -70,12 +86,12 @@ void Particle::setMaxY(int maxY) {
 }
 
 void Particle::addToSpeedX(float x) {
-    if (this->speedX > MAX_SPEED) {return;}
+    if (this->speedX > MAX_SPEED || this->speedX < -MAX_SPEED) {this->speedX *= 0.5;return;}
     this->speedX += x;
 }
 
 void Particle::addToSpeedY(float y) {
-    if (this->speedY > MAX_SPEED) {return;}
+    if (this->speedY > MAX_SPEED || this->speedY < -MAX_SPEED) {this->speedY*=0.5;return;}
     this->speedY += y;
 }
 
