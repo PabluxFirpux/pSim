@@ -23,6 +23,8 @@ public:
     void setMaxX(int maxX);
     void setMaxY(int maxY);
     float float_rand( float min, float max );
+    void addToSpeedX(float x);
+    void addToSpeedY(float y);
 private:
     float x;
     float y;
