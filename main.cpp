@@ -5,18 +5,41 @@
 #include <vector>
 #include "src/PhysicsEngine.h"
 
+float MAX_FORCE = 30;
+
+float bg = 0;
+float br = 0;
+float bb = 0;
+float by = 0;
+float gg = 0;
+float gr = 0;
+float gy = 0;
+float rr = 0;
+float ry = 0;
+float yy = 0;
+
 int WIDTH = 1800;
 int HEIGHT = 900;
 float CELLSIZE = 5;
 std::vector<Particle*> particles = std::vector<Particle*>();
-PhysicsEngine pengine = PhysicsEngine(0,8,8,-20,8,0,8,8,0,8);
+std::vector<float*> values = std::vector<float*>();
+PhysicsEngine pengine = PhysicsEngine(bg,br,bb,by,gg,gr,gy,rr,ry,yy);
+
 void display();
 
 void reshape(int w, int h);
 
+void fillValues();
+
 void applyForces();
 
 void drawParticle(float x, float y, Color color);
+
+Particle getSlider(float x, float y);
+
+void updateEngine();
+
+void drawControls();
 
 void calcPositions();
 
@@ -26,6 +49,8 @@ void reMarginParticles( int maxX, int maxY);
 
 void pressKey(unsigned char key, int x, int y);
 
+void mouse(int button, int state, int x, int y);
+
 void populate();
 
 void init() {
@@ -34,6 +59,7 @@ void init() {
 
 int main(int argc, char **argv) {
     populate();
+    fillValues();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB);
 
@@ -45,6 +71,7 @@ int main(int argc, char **argv) {
     glutIdleFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(pressKey);
+    glutMouseFunc(mouse);
     init();
     glutMainLoop();
 
@@ -77,10 +104,85 @@ void display() {
     glBegin(GL_QUADS);
 
     drawParticles();
-
+    drawControls();
     glEnd();
 
     glFlush();
+
+}
+
+void drawControls() {
+    //Draw controls background
+    glColor3f(0.7,0.7,0.7);
+    int x = 20;
+    int y = HEIGHT-20;
+    int menuW = 280;
+    int menuH = 110;
+    glVertex2f(x, y);
+    glVertex2f(x + menuW, y);
+    glVertex2f(x + menuW, y - menuH);
+    glVertex2f(x, y - menuH);
+
+   //Draw options
+    for (int i = 0; i < 10; i++) {
+        Color color1 = Color::BLUE;
+        Color color2 = Color::BLUE;
+        switch (i) {
+            case 0:
+                color2 = Color::GREEN;
+                break;
+            case 1:
+                color2 = Color::RED;
+                break;
+            case 2:
+                break;
+            case 3:
+                color2 = Color::YELLOW;
+                break;
+            case 4:
+                color1 = Color::GREEN;
+                color2 = Color::GREEN;
+                break;
+            case 5:
+                color1 = Color::GREEN;
+                color2 = Color::RED;
+                break;
+            case 6:
+                color1 = Color::GREEN;
+                color2 = Color::YELLOW;
+                break;
+            case 7:
+                color1 = Color::RED;
+                color2 = Color::RED;
+                break;
+            case 8:
+                color1 = Color::RED;
+                color2 = Color::YELLOW;
+                break;
+            case 9:
+                color1 = Color::YELLOW;
+                color2 = Color::YELLOW;
+                break;
+            default:
+                break;
+        }
+        drawParticle(x+10,y-10-(i*10), color1);
+        drawParticle(x+15,y-10-(i*10), color2);
+
+        //Draw sliders
+        int sliderLength = 250;
+        float sliderMid = sliderLength/2;
+        glColor3f(0,0,0);
+        glVertex2f(x+25, y-10-(i*10));
+        glVertex2f(x+25+sliderLength, y-10-(i*10));
+        glVertex2f(x+25+sliderLength, y-10-(i*10)+CELLSIZE);
+        glVertex2f(x+25, y-10-(i*10)+CELLSIZE);
+
+        float proportion = *values[i]/MAX_FORCE;
+        float pos = proportion * sliderMid;
+        drawParticle(x+25+sliderMid+pos,y-10-(i*10), Color::WHITE);
+
+    }
 
 }
 
@@ -109,6 +211,9 @@ void drawParticle(float x, float y, Color color) {
             break;
         case Color::YELLOW:
             glColor3f(1,1,0);
+            break;
+        case Color::WHITE:
+            glColor3f(1,1,1);
             break;
     }
     glVertex2f(x, y);
@@ -150,5 +255,49 @@ void populate() {
 }
 
 void pressKey(unsigned char key, int x, int y) {
-    //TODO
+    switch (key) {
+        case 'q':
+            exit(0);
+            break;
+    }
+}
+
+void mouse(int button, int state, int x, int y) {
+    if (!button == GLUT_LEFT_BUTTON) {
+        return;
+    }
+    if (!state == GLUT_DOWN) {
+        return;
+    }
+    if (x < 25+20 || x > 20+25+250) {
+        return;
+    }
+    float sliderStart = 20;
+    float sliderEnd = 20+10+(9*10);
+    if (y > sliderEnd || y < sliderStart) {
+        return;
+    }
+    int sliderSelected = ((int)(y - sliderStart)) /10;
+    float saldo = x-25-20-125;
+    float proportion = saldo/125;
+    float valueToSet = proportion*MAX_FORCE;
+    *values[sliderSelected] = valueToSet;
+    updateEngine();
+}
+
+void fillValues() {
+    values.push_back(&bg);
+    values.push_back(&br);
+    values.push_back(&bb);
+    values.push_back(&by);
+    values.push_back(&gg);
+    values.push_back(&gr);
+    values.push_back(&gy);
+    values.push_back(&rr);
+    values.push_back(&ry);
+    values.push_back(&yy);
+}
+
+void updateEngine() {
+    pengine.setForces(values[0],values[1],values[2],values[3],values[4], values[5], values[6], values[7], values[8],values[9]);
 }

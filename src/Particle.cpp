@@ -95,3 +95,11 @@ void Particle::addToSpeedY(float y) {
     this->speedY += y;
 }
 
+float Particle::setX(float x) {
+   this->x = x;
+}
+
+float Particle::setY(float y) {
+    this->y = y;
+}
+

@@ -13,7 +13,8 @@ add_executable(pSim
         src/Particle.cpp
         src/Particle.h
         src/PhysicsEngine.cpp
-        src/PhysicsEngine.h)
+        src/PhysicsEngine.h
+)
 
 install(TARGETS pSim DESTINATION bin)
 

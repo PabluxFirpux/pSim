@@ -95,3 +95,17 @@ Force PhysicsEngine::getForce(Particle* target, Particle* reference) {
 float PhysicsEngine::getSquare(float x) {
     return x * x;
 }
+
+void PhysicsEngine::setForces(float *bg, float *br, float *bb, float *by, float *gg, float *gr, float *gy, float *rr, float *ry,
+                              float *yy) {
+    this->bg = *bg;
+    this->br=*br;
+    this->bb=*bb;
+    this->by=*by;
+    this->gg=*gg;
+    this->gr=*gr;
+    this->gy=*gy;
+    this->rr=*rr;
+    this->ry=*ry;
+    this->yy=*yy;
+}
