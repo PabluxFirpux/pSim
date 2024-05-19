@@ -4,7 +4,6 @@
 #include "src/Particle.h"
 #include <vector>
 #include "src/PhysicsEngine.h"
-#include <iostream>
 
 float MAX_FORCE = 30;
 
