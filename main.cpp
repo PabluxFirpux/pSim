@@ -5,7 +5,7 @@
 #include <vector>
 #include "src/PhysicsEngine.h"
 
-float MAX_FORCE = 30;
+float MAX_FORCE = 10;
 
 float bg = 0;
 float br = 0;
