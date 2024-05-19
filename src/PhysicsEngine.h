@@ -15,6 +15,7 @@ class PhysicsEngine {
 public:
     PhysicsEngine(float bg, float br, float bb, float by, float gg, float gr, float gy, float rr, float ry, float yy);
     Force getForce(Particle* target, Particle* reference);
+    void setForces(float *bg, float *br, float *bb, float *by, float *gg, float *gr, float *gy, float *rr, float *ry, float *yy);
 private:
     float bg;
     float br;

@@ -18,6 +18,8 @@ public:
     Particle(int maxX, int maxY, Color color);
     float getX();
     float getY();
+    float setX(float x);
+    float setY(float y);
     void calcNextPosition();
     Color getColor();
     void bounce();
