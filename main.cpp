@@ -171,13 +171,16 @@ void drawControls() {
 
         //Draw sliders
         int sliderLength = 250;
+        float sliderMid = sliderLength/2;
         glColor3f(0,0,0);
         glVertex2f(x+25, y-10-(i*10));
         glVertex2f(x+25+sliderLength, y-10-(i*10));
         glVertex2f(x+25+sliderLength, y-10-(i*10)+CELLSIZE);
         glVertex2f(x+25, y-10-(i*10)+CELLSIZE);
 
-        drawParticle(x+25+(sliderLength/2)+((*values[i]/MAX_FORCE)*(sliderLength/2)),y-10-(i*10), Color::WHITE);
+        float proportion = *values[i]/MAX_FORCE;
+        float pos = proportion * sliderMid;
+        drawParticle(x+25+sliderMid+pos,y-10-(i*10), Color::WHITE);
 
     }
 
@@ -252,7 +255,11 @@ void populate() {
 }
 
 void pressKey(unsigned char key, int x, int y) {
-    //TODO
+    switch (key) {
+        case 'q':
+            exit(0);
+            break;
+    }
 }
 
 void mouse(int button, int state, int x, int y) {
@@ -274,7 +281,7 @@ void mouse(int button, int state, int x, int y) {
     float saldo = x-25-20-125;
     float proportion = saldo/125;
     float valueToSet = proportion*MAX_FORCE;
-    values[sliderSelected] = &valueToSet;
+    *values[sliderSelected] = valueToSet;
     updateEngine();
 }
 
