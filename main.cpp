@@ -9,7 +9,7 @@ int WIDTH = 1800;
 int HEIGHT = 900;
 float CELLSIZE = 5;
 std::vector<Particle*> particles = std::vector<Particle*>();
-PhysicsEngine pengine = PhysicsEngine(0,8,8,-20,8,0,8,8,0,8);
+PhysicsEngine pengine = PhysicsEngine(0,2,3,0,0,3,0,0,1,0);
 void display();
 
 void reshape(int w, int h);
@@ -17,6 +17,8 @@ void reshape(int w, int h);
 void applyForces();
 
 void drawParticle(float x, float y, Color color);
+
+void drawControls();
 
 void calcPositions();
 
@@ -77,10 +79,82 @@ void display() {
     glBegin(GL_QUADS);
 
     drawParticles();
-
+    drawControls();
     glEnd();
 
     glFlush();
+
+}
+
+void drawControls() {
+    //Draw controls background
+    glColor3f(0.7,0.7,0.7);
+    int x = 20;
+    int y = HEIGHT-20;
+    int menuW = 280;
+    int menuH = 110;
+    glVertex2f(x, y);
+    glVertex2f(x + menuW, y);
+    glVertex2f(x + menuW, y - menuH);
+    glVertex2f(x, y - menuH);
+
+   //Draw options
+    for (int i = 0; i < 10; i++) {
+        Color color1 = Color::BLUE;
+        Color color2 = Color::BLUE;
+        switch (i) {
+            case 0:
+                color2 = Color::GREEN;
+                break;
+            case 1:
+                color2 = Color::RED;
+                break;
+            case 2:
+                break;
+            case 3:
+                color2 = Color::YELLOW;
+                break;
+            case 4:
+                color1 = Color::GREEN;
+                color2 = Color::GREEN;
+                break;
+            case 5:
+                color1 = Color::GREEN;
+                color2 = Color::RED;
+                break;
+            case 6:
+                color1 = Color::GREEN;
+                color2 = Color::YELLOW;
+                break;
+            case 7:
+                color1 = Color::RED;
+                color2 = Color::RED;
+                break;
+            case 8:
+                color1 = Color::RED;
+                color2 = Color::YELLOW;
+                break;
+            case 9:
+                color1 = Color::YELLOW;
+                color2 = Color::YELLOW;
+                break;
+            default:
+                break;
+        }
+        drawParticle(x+10,y-10-(i*10), color1);
+        drawParticle(x+15,y-10-(i*10), color2);
+
+        //Draw sliders
+        int sliderLength = 250;
+        glColor3f(0,0,0);
+        glVertex2f(x+25, y-10-(i*10));
+        glVertex2f(x+25+sliderLength, y-10-(i*10));
+        glVertex2f(x+25+sliderLength, y-10-(i*10)+CELLSIZE);
+        glVertex2f(x+25, y-10-(i*10)+CELLSIZE);
+
+        drawParticle(x+25+(sliderLength/2),y-10-(i*10), Color::WHITE);
+
+    }
 
 }
 
@@ -109,6 +183,9 @@ void drawParticle(float x, float y, Color color) {
             break;
         case Color::YELLOW:
             glColor3f(1,1,0);
+            break;
+        case Color::WHITE:
+            glColor3f(1,1,1);
             break;
     }
     glVertex2f(x, y);

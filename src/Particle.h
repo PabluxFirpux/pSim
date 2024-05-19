@@ -9,7 +9,8 @@ enum Color {
     RED,
     GREEN,
     BLUE,
-    YELLOW
+    YELLOW,
+    WHITE
 };
 
 class Particle {
